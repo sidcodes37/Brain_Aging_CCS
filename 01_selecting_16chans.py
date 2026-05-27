@@ -1,7 +1,7 @@
 import os, re, csv
 
 """
-Stream headers.txt.
+This code streams headers.txt and outputs the CSV rows with the specific electrodes.
 
  - When SELECTIVE_ELECTRODES is True: write CSV rows only for files that contain ALL TARGET_ELECTRODES.
  - CSV columns: filepath, age, gender, duration, fs
@@ -9,8 +9,8 @@ Stream headers.txt.
 
 
 # CONFIGURATION 
-INPUT_TXT = "/serverdata/ccshome/sid/Final Pipeline/headers.txt"
-OUTPUT_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/01_selective_16.csv"
+INPUT_TXT = # Input the location of the headers.txt file. 
+OUTPUT_CSV = # Enter the desired location of the output file. 
 
 # When True, only write files that contain ALL TARGET_ELECTRODES.
 # When False, write a row for every file record (no electrode filtering).
