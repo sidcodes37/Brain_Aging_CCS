@@ -19,8 +19,8 @@ Notes:
 - Leading "EEG"/"ECG"/"EKG" and trailing "-REF" are retained in the label keys.
 """
 
-INPUT_PATH = r"C:\Siddharth\Research Experience\NIMHANS-CCS\Brain Age Index\TUH_EEG_Dataset_Codes\headers.txt"
-OUT_PATH = r"C:\Siddharth\Research Experience\NIMHANS-CCS\Brain Age Index\TUH_EEG_Dataset_Codes\data_summary.json"
+INPUT_PATH = # Input the headers.txt file here. Enter the location of the file.
+OUT_PATH = # Output is a json file. Enter the desired location here.
 
 # regexes
 re_file_start = re.compile(r'^\s*\d+:\s*(\S.*)$')
