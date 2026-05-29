@@ -1,6 +1,9 @@
-'''
-Computing Catch22 features for val data.
-'''
+"""
+Preprocess EDFs, then call C22 features to compute per-epoch channel features. Averages
+features per-channel and writes CSV.
+Columns - 4 (ID, Age, Gender_male, Gender_female, channel_name, x,y,z) + 22 (features)
+Rows - 16 rows per file (Values per channel)
+"""
 import os
 import gc
 import mne
@@ -13,9 +16,9 @@ from joblib import Parallel, delayed
 from utils import compute_catch22, clean_channel_name
 
 INPUT_CSV =  # Input path of file 04_final_val_data.csv
-OUTPUT_CSV = # Output path for file 05_CCS_val_features.csv
-THRESH_CSV = # Output path for file 05_CCS_val_thresh.csv
-REJECT_CSV = # Output path for file 05_CCS_val_reject_log.csv
+OUTPUT_CSV = # Output path for file 05_C22_val_features.csv
+THRESH_CSV = # Output path for file 05_C22_val_thresh.csv
+REJECT_CSV = # Output path for file 05_C22_val_reject_log.csv
 
 # Parallelism
 N_JOBS = -1   # set >1 for parallel feature extraction (joblib)
@@ -134,8 +137,6 @@ def ComputeCatch22(i, filepath, age, gender):
     print("Level 1 of preprocessing - Removing epochs with amplitude greater than 500 uV")
     reject = {"eeg": THRESHOLD_V}
     epochs_clean = raw_epochs.drop_bad(reject=reject)
-    # dropped_epochs = [i for i, log in enumerate(epochs_clean.drop_log) if len(log) > 0]
-    # l1_reject_count = len(dropped_epochs)
     l1_reject_count = n_epochs - len(epochs_clean)
     print("Epochs dropped at Level 1: ", l1_reject_count)
     print(f"Level 1 preprocessing done. Rejected {l1_reject_count} epochs out of {n_epochs}")
