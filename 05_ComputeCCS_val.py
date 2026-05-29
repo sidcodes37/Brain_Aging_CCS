@@ -5,7 +5,6 @@ Columns - 4 (ID, Age, Gender_male, Gender_female, channel_name, x,y,z) + 70 (fea
 Rows - 16 rows per file (Values per channel)
 """
 
-
 import os
 import gc
 import traceback
@@ -22,20 +21,13 @@ from autoreject import AutoReject, get_rejection_threshold
 # -----------------------
 # CONFIG SECTION (edit these)
 # -----------------------
-# Local paths (edit these directly)
-# INPUT_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/04_final_val_data.csv" # CSV listing EDFs plus age,gender,filepath
-# OUTPUT_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/CCS_val_features.csv" # where to write the generated CCS features CSV
-# THRESH_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/CCS_val_thresh.csv"
-# REJECT_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/CCS_val_reject_log.csv"
-# FAILED_LOG_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/CCS_val_failed_log.csv"
-
-INPUT_CSV = "/serverdata/ccshome/sid/subsampled_val_data_pop.csv" # CSV listing EDFs plus age,gender,filepath
-OUTPUT_CSV = "/serverdata/ccshome/sid/subsampled_val_data_features.csv" # where to write the generated CCS features CSV
-THRESH_CSV = "/serverdata/ccshome/sid/subsampled_val_data_thresh.csv"
-REJECT_CSV = "/serverdata/ccshome/sid/subsampled_val_data_reject_log.csv"
-FAILED_LOG_CSV = "/serverdata/ccshome/sid/subsampled_val_data_failed_log.csv"
+INPUT_CSV =  # Input path of file 04_final_val_data.csv
+OUTPUT_CSV = # Output path for file 05_CCS_val_features.csv
+THRESH_CSV = # Output path for file 05_CCS_val_thresh.csv
+REJECT_CSV = # Output path for file 05_CCS_val_reject_log.csv
+FAILED_LOG_CSV = # Output path for file 05_CCS_val_failed_log.csv
 # Parallelism
-N_JOBS = 200   # set >1 for parallel feature extraction (joblib)
+N_JOBS = -1   # set >1 for parallel feature extraction (joblib)
 
 SEED = 37
 
@@ -151,9 +143,7 @@ def ComputeCCS(i, filepath, age, gender):
         # Removing epochs with Amplitudes greater than 500 uV
         print("Level 1 of preprocessing - Removing epochs with amplitude greater than 500 uV")
         reject = {"eeg": THRESHOLD_V}
-        epochs_clean = raw_epochs.drop_bad(reject=reject)
-        # dropped_epochs = [i for i, log in enumerate(epochs_clean.drop_log) if len(log) > 0]
-        # l1_reject_count = len(dropped_epochs)
+        epochs_clean = raw_epochs.drop_bad(reject=reject) 
         l1_reject_count = n_epochs - len(epochs_clean)
         print("Epochs dropped at Level 1: ", l1_reject_count)
         print(f"Level 1 preprocessing done. Rejected {l1_reject_count} epochs out of {n_epochs}")
@@ -252,10 +242,7 @@ def ComputeCCS(i, filepath, age, gender):
             print(f"Level 2 preprocessing done! Rejected {len(epochs_clean) - len(epochs_ar)} epochs out of {len(epochs_clean)}")
             global_thresh = None
             thresh_channels = ar.threshes_
-    
-            # thresh_cv = max(4,min(5,len(epochs_ar)))
-            # thres_dict = get_rejection_threshold(epochs_ar, decim=1, random_state=SEED,cv=thresh_cv)
-            
+
             result = {
                 'success': True,
                 'global_thresh': None,
@@ -374,7 +361,6 @@ def ComputeCCS(i, filepath, age, gender):
                 append_dict_to_csv(rec, THRESH_CSV)
         if thresh_channels is not None:
                 # thresh_channels may be a dict-like of per-channel thresholds
-                # rec = dict(thresh_channels)
                 rec = {}
                 rec['filepath'] = filepath
                 rec['type'] = 'per_channel'
@@ -450,14 +436,7 @@ if __name__ == "__main__":
         exit(0)
          
     jobs = []
-    # skipped_count = 0
     for i, (_, row) in enumerate(filelist.iterrows(), start=1):
-        # filepath = row['filepath']
-        # if filepath in processed_files:
-        #     skipped_count += 1
-        #     print(f"Skipping coz done {filepath}.")
-        #     continue
-        
         jobs.append((i, row['filepath'], row.get('age'), row.get('gender')))
     
     
@@ -468,7 +447,6 @@ if __name__ == "__main__":
 
     # Summary
     success_count = sum(1 for r in results if r.get('success'))
-    # failed_count = len(results) - success_count
     failed_files = [r for r in results if r.get('error')]
     failed_count = len(failed_files)
     
