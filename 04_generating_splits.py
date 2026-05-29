@@ -1,9 +1,12 @@
+'''
+Once the train, test, val split is done, run each file in this code to populate the specific files for every subject in the file. 
+'''
 import pandas as pd
 import re
 
-INPUT_CSV = "/serverdata/ccshome/sid/subsampled_val.csv"
-OUTPUT_CSV = "/serverdata/ccshome/sid/subsampled_val_data_pop.csv"
-SOURCE_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/02_valid_files.csv"
+INPUT_CSV = # Input path of subject wise splits (Run the code for each file separately)
+OUTPUT_CSV = # Output file path 04_final_train_data, 04_final_test_data, 04_final_val_data
+SOURCE_CSV = # Input path of file 02_valid_files.csv. This is the source csv using which the code will populate the output csv. 
 
 source_df = pd.read_csv(SOURCE_CSV)
 df = pd.read_csv(INPUT_CSV)
