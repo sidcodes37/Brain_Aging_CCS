@@ -1,3 +1,6 @@
+'''
+Computing Catch22 features for val data.
+'''
 import os
 import gc
 import mne
@@ -9,10 +12,10 @@ from sklearn.model_selection import KFold
 from joblib import Parallel, delayed
 from utils import compute_catch22, clean_channel_name
 
-INPUT_CSV = "/serverdata/ccshome/sid/final_val_data_unshuffled.csv"
-OUTPUT_CSV = "/serverdata/ccshome/sid/C22_val_features.csv"
-THRESH_CSV = "/serverdata/ccshome/sid/C22_val_thresh_log.csv"
-REJECT_CSV = "/serverdata/ccshome/sid/C22_val_reject_log.csv"
+INPUT_CSV =  # Input path of file 04_final_val_data.csv
+OUTPUT_CSV = # Output path for file 05_CCS_val_features.csv
+THRESH_CSV = # Output path for file 05_CCS_val_thresh.csv
+REJECT_CSV = # Output path for file 05_CCS_val_reject_log.csv
 
 # Parallelism
 N_JOBS = -1   # set >1 for parallel feature extraction (joblib)
@@ -304,8 +307,6 @@ def ComputeCatch22(i, filepath, age, gender):
             rec['type'] = 'global_eeg'
             append_dict_to_csv(rec, THRESH_CSV)
     if thresh_channels is not None:
-            # thresh_channels may be a dict-like of per-channel thresholds
-            # rec = dict(thresh_channels)
             rec = {}
             for orig_ch, out_ch in zip(clean_ch_names, thresh_ch_names):
                 rec[out_ch] = thresh_channels.get(orig_ch, np.nan)
@@ -376,14 +377,7 @@ if __name__ == "__main__":
         exit(0)
     
     jobs = []
-    # skipped_count = 0
-    for i, (_, row) in enumerate(filelist.iterrows(), start=1):
-        # filepath = row['filepath']
-        # if filepath in processed_files:
-        #     skipped_count += 1
-        #     print(f"Skipping coz done {filepath}.")
-        #     continue
-        
+    for i, (_, row) in enumerate(filelist.iterrows(), start=1):        
         jobs.append((i, row['filepath'], row.get('age'), row.get('gender')))
     
     
