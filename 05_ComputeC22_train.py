@@ -1,3 +1,6 @@
+'''
+Computing Catch22 features for train data.
+'''
 import os
 import gc
 import mne
@@ -9,10 +12,10 @@ from sklearn.model_selection import KFold
 from joblib import Parallel, delayed
 from utils import compute_catch22, clean_channel_name
 
-INPUT_CSV = "/serverdata/ccshome/sid/final_train_data_unshuffled.csv"
-OUTPUT_CSV = "/serverdata/ccshome/sid/C22_train_features.csv"
-THRESH_CSV = "/serverdata/ccshome/sid/C22_train_thresh_log.csv"
-REJECT_CSV = "/serverdata/ccshome/sid/C22_train_reject_log.csv"
+INPUT_CSV =  # Input path of file 04_final_train_data.csv
+OUTPUT_CSV = # Output path for file 05_CCS_train_features.csv
+THRESH_CSV = # Output path for file 05_CCS_train_thresh.csv
+REJECT_CSV = # Output path for file 05_CCS_train_reject_log.csv
 
 # Parallelism
 N_JOBS = -1   # set >1 for parallel feature extraction (joblib)
