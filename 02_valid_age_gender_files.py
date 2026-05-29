@@ -1,12 +1,14 @@
+'''
+Create a new CSV that keeps only files that have a valid age and gender.
+'''
 import pandas as pd
 from pathlib import Path
 
-# Create a new CSV that keeps only rows whose filepath points to an existing file under a local base directory.
-# And the files have a valid age and gender.
 
-INPUT_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/01_selective_16.csv"
-OUTPUT_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/02_valid_files.csv"
-BASE_PATH = Path("/NAS_all/CCS_Common/OpenSourceDatasets/TUH_Healthy")
+
+INPUT_CSV = # Input path of file 01_selective_16.csv
+OUTPUT_CSV = # Output path of file 02_valid_files.csv
+BASE_PATH = Path(" ") # Input the base path
 MIN_DURATION = 270
 
 
