@@ -1,5 +1,5 @@
 '''
-Computing Catch22 features for test subjects.
+Computing Catch22 features for test data.
 '''
 import os
 import gc
