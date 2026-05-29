@@ -1,6 +1,10 @@
-'''
-Computing Catch22 features for train data.
-'''
+"""
+Preprocess EDFs, then call C22 features to compute per-epoch channel features. Averages
+features per-channel and writes CSV.
+Columns - 4 (ID, Age, Gender_male, Gender_female, channel_name, x,y,z) + 70 (features)
+Rows - 16 rows per file (Values per channel)
+"""
+
 import os
 import gc
 import mne
@@ -13,9 +17,9 @@ from joblib import Parallel, delayed
 from utils import compute_catch22, clean_channel_name
 
 INPUT_CSV =  # Input path of file 04_final_train_data.csv
-OUTPUT_CSV = # Output path for file 05_CCS_train_features.csv
-THRESH_CSV = # Output path for file 05_CCS_train_thresh.csv
-REJECT_CSV = # Output path for file 05_CCS_train_reject_log.csv
+OUTPUT_CSV = # Output path for file 05_C22_train_features.csv
+THRESH_CSV = # Output path for file 05_C22_train_thresh.csv
+REJECT_CSV = # Output path for file 05_C22_train_reject_log.csv
 
 # Parallelism
 N_JOBS = -1   # set >1 for parallel feature extraction (joblib)
@@ -86,7 +90,7 @@ def append_rows_to_csv(rows_list, csv_path, lock_timeout=30):
     finally:
         release_lock(lockfile)
 
-# PER-FILE FUNCtion
+# PER-FILE FUNCTION
 
 filelist = pd.read_csv(INPUT_CSV)
 total_files = len(filelist)
@@ -134,8 +138,6 @@ def ComputeCatch22(i, filepath, age, gender):
     print("Level 1 of preprocessing - Removing epochs with amplitude greater than 500 uV")
     reject = {"eeg": THRESHOLD_V}
     epochs_clean = raw_epochs.drop_bad(reject=reject)
-    # dropped_epochs = [i for i, log in enumerate(epochs_clean.drop_log) if len(log) > 0]
-    # l1_reject_count = len(dropped_epochs)
     l1_reject_count = n_epochs - len(epochs_clean)
     print("Epochs dropped at Level 1: ", l1_reject_count)
     print(f"Level 1 preprocessing done. Rejected {l1_reject_count} epochs out of {n_epochs}")
@@ -308,7 +310,6 @@ def ComputeCatch22(i, filepath, age, gender):
             append_dict_to_csv(rec, THRESH_CSV)
     if thresh_channels is not None:
             # thresh_channels may be a dict-like of per-channel thresholds
-            # rec = dict(thresh_channels)
             rec = {}
             for orig_ch, out_ch in zip(clean_ch_names, thresh_ch_names):
                 rec[out_ch] = thresh_channels.get(orig_ch, np.nan)
@@ -379,14 +380,7 @@ if __name__ == "__main__":
         exit(0)
     
     jobs = []
-    # skipped_count = 0
     for i, (_, row) in enumerate(filelist.iterrows(), start=1):
-        # filepath = row['filepath']
-        # if filepath in processed_files:
-        #     skipped_count += 1
-        #     print(f"Skipping coz done {filepath}.")
-        #     continue
-        
         jobs.append((i, row['filepath'], row.get('age'), row.get('gender')))
     
     
