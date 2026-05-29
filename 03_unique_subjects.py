@@ -1,7 +1,11 @@
+'''
+Extracting unique subjects from valid files for train, test, val splitting
+'''
+
 import pandas as pd
 
-INPUT_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/02_valid_files.csv"
-OUTPUT_CSV = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/03_unique_subjects.csv"
+INPUT_CSV = # Input path of file 02_valid_files.csv
+OUTPUT_CSV = # Output path for file 03_unique_subjects.csv
 
 df = pd.read_csv(INPUT_CSV)
 
