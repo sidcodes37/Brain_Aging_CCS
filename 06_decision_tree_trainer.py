@@ -14,13 +14,15 @@ import shap
 # =========================
 
 # Dataset filepaths
-TRAIN_CSV = "/serverdata/ccshome/sid/Catch22/Catch22_Features/C22_train_features.csv"
-VAL_CSV   = "/serverdata/ccshome/sid/Catch22/Catch22_Features/C22_val_features.csv"
-TEST_CSV  = "/serverdata/ccshome/sid/Catch22/Catch22_Features/C22_test_features.csv"
 
+TRAIN_CSV = # Input path of file 05_C22_train_features.csv
+VAL_CSV   = # Input path of file 05_C22_val_features.csv
+TEST_CSV  = # Input path of file 05_C22_test_features.csv
+# TRAIN_CSV = # Input path of file 05_CCS_train_features.csv
+# VAL_CSV   = # Input path of file 05_CCS_val_features.csv
+# TEST_CSV  = # Input path of file 05_CCS_test_features.csv
 
-# Set filepath for output directory
-OUT_DIR = "/serverdata/ccshome/sid/Final Pipeline/final_outputs/06_dt_outputs"
+OUT_DIR = # Output directory path for 06_dt_outputs
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # Random seed
