@@ -6,8 +6,8 @@ Dataset Used - TUH-EEG Corpus (Obeid and Picone, 2016)
 1) Data Engineering 
 2) EEG signal Preprocessing
 3) Feature Extraction & Engineering
-   - a) Catch22
-   - b) In-house built feature set (CCS Features) 
+   - Catch22
+   - In-house built feature set (CCS Features) 
 4) Machine Learning Models Training
 5) Feature Importance - SHapley Additive exPlanations (SHAP)
 
@@ -106,10 +106,9 @@ The second pipeline is an in-house feature set that extracts a broader collectio
 - Non-linear signal complexity measures - Entropy, Fractal Complexity, Lempel–Ziv Complexity, Multifractal Detrended Fluctuation Analysis (DFA)
 - Autocorrelation window (ACW) measures
 
-Extracted using ccstools (Sasidharan, 2026)
-Feature extraction is performed independently for each epoch before averaging across retained epochs.
+Extracted using ccstools (Sasidharan, 2026). 
 
-The resulting feature matrix additionally includes:
+Feature extraction is performed independently for each epoch before averaging across retained epochs. The resulting feature matrix additionally includes:
 - participant age
 - sex
 - channel identity
@@ -185,7 +184,9 @@ Trains and evaluates the respective brain-age prediction model using the extract
 # References
 
 Lubba, Carl H., et al. “Catch22: CAnonical Time-Series CHaracteristics.” Data Mining and Knowledge Discovery, vol. 33, no. 6, 9 Aug. 2019, pp. 1821–1852, 10.1007/s10618-019-00647-x.
+
 Obeid, Iyad, and Joseph Picone. “The Temple University Hospital EEG Data Corpus.” Frontiers in Neuroscience, vol. 10, 13 May 2016, 10.3389/fnins.2016.00196. 
+
 Sasidharan, A. (2026, May 15). ccs_toolbox (v0.1.2) (R. Venugopal, Ed.). Github. https://github.com/arunsasidharan84/ccs_toolbox.
 
 
