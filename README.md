@@ -6,8 +6,8 @@ Dataset Used - TUH-EEG Corpus (Obeid and Picone, 2016)
 1) Data Engineering 
 2) EEG signal Preprocessing
 3) Feature Extraction & Engineering
-    a) Catch22
-    b) In-house built feature set (CCS Features) 
+   - a) Catch22
+   - b) In-house built feature set (CCS Features) 
 4) Machine Learning Models Training
 5) Feature Importance - SHapley Additive exPlanations (SHAP)
 
