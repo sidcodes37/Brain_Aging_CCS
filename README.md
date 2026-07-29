@@ -1,6 +1,6 @@
 ### This is an end-to-end pipeline for computing EEG based Brain Age Index developed at the Centre for Consciousness Studies, NIMHANS, Bangalore. 
 
-Dataset Used - TUH-EEG Corpus (Obeid and Picone, 2016) 
+Dataset Used - TUH-EEG Corpus ([Obeid and Picone, 2016](https://doi.org/10.1007/s10618-019-00647-x)) 
 
 # What does the pipeline involve?
 1) Data Engineering 
@@ -89,7 +89,7 @@ Two independent feature extraction pipelines are provided.
 ## Catch22 Feature Set
 
 The first pipeline computes the Catch22 feature set.
-Twenty-two canonical time-series descriptors are extracted from every epoch for each of the sixteen EEG channels. This feature set is derived from hctsa feature library (Lubba et al., 2019). 
+Twenty-two canonical time-series descriptors are extracted from every epoch for each of the sixteen EEG channels. This feature set is derived from hctsa feature library ([Lubba et al., 2019](https://doi.org/10.1007/s10618-019-00647-x)). 
 
 This produces one feature vector per channel consisting of:
 - subject metadata
@@ -106,7 +106,7 @@ The second pipeline is an in-house feature set that extracts a broader collectio
 - Non-linear signal complexity measures - Entropy, Fractal Complexity, Lempel–Ziv Complexity, Multifractal Detrended Fluctuation Analysis (DFA)
 - Autocorrelation window (ACW) measures
 
-Extracted using ccstools (Sasidharan, 2026). 
+Extracted using ccstools ([Sasidharan, 2026](https://pypi.org/project/ccstools/)). 
 
 Feature extraction is performed independently for each epoch before averaging across retained epochs. The resulting feature matrix additionally includes:
 - participant age
@@ -183,10 +183,10 @@ Trains and evaluates the respective brain-age prediction model using the extract
 
 # References
 
-Lubba, Carl H., et al. “Catch22: CAnonical Time-Series CHaracteristics.” Data Mining and Knowledge Discovery, vol. 33, no. 6, 9 Aug. 2019, pp. 1821–1852, 10.1007/s10618-019-00647-x.
+Lubba, C. H., Sethi, S. S., Knaute, P., Schultz, S. R., Fulcher, B. D., & Jones, N. S. (2019). Catch22: canonical time-series characteristics. Data Mining and Knowledge Discovery, 33(6), 1821–1852. https://doi.org/10.1007/s10618-019-00647-x
 
-Obeid, Iyad, and Joseph Picone. “The Temple University Hospital EEG Data Corpus.” Frontiers in Neuroscience, vol. 10, 13 May 2016, 10.3389/fnins.2016.00196. 
+Obeid, I., & Picone, J. (2016). The temple university hospital EEG data corpus. Frontiers in Neuroscience, 10. https://doi.org/10.3389/fnins.2016.00196
 
-Sasidharan, A. (2026, May 15). ccs_toolbox (v0.1.2) (R. Venugopal, Ed.). Github. https://github.com/arunsasidharan84/ccs_toolbox.
+Sasidharan, A. (2026, May 15). ccs_toolbox (v0.1.2) (R. Venugopal, Ed.). Github. https://github.com/arunsasidharan84/ccs_toolbox
 
 
