@@ -13,9 +13,9 @@ Dataset Used - TUH-EEG Corpus ([Obeid and Picone, 2016](https://doi.org/10.1007/
 
 
 # Dataset 
-This project uses the TUH EEG Corpus (TUEG). This corpus is an archive of 14987 patients’ resting state EEG recordings collected at the Temple University Hospital. There are a total of 69670 resting state EEG recordings. 
+This project uses the TUH EEG Corpus (TUEG). This corpus is an archive of 14987 patients’ resting state EEG recordings collected at the Temple University Hospital. There are a total of **69670 resting state EEG recordings**.
 
-The dataset is not an open-source dataset and thus is not included in this repository. Dataset can be requested from [here](https://isip.piconepress.com/projects/nedc/html/tuh_eeg/)
+The dataset is not an open-source dataset and thus is not included in this repository. Dataset can be requested from [here](https://isip.piconepress.com/projects/nedc/html/tuh_eeg/).
 
 The dataset includes a readme file, a headers file and all the corresponding edf files. In our pipeline, data engineering steps were performed exclusively on the metadata contained within the headers text file, ensuring no EEG signal data were read, modified, or distorted at this stage. At each step, a CSV file was generated retaining a filepath column as a constant identifier, which was later used to call the relevant EDF files during pre-processing and feature extraction.
 
@@ -35,7 +35,7 @@ Only recordings containing all sixteen electrodes are retained to ensure a consi
 Extracted metadata undergoes quality control before feature extraction. Recordings are retained only if they satisfy all of the following criteria:
 - file exists locally
 - valid subject age is available
-- age lies between 18 and 90 years
+- age lies between **18 and 90 years**
 - valid sex information is present
 - recording duration exceeds the specified minimum threshold
 
@@ -43,7 +43,7 @@ Subject identifiers are then extracted from file paths, allowing recordings from
 
 ## 3. Subject-Level Dataset Splitting
 
-To prevent data leakage, training, validation, and test datasets are created at the subject level rather than the recording level.
+To prevent data leakage, training, validation, and test datasets are created at the **subject level** rather than the recording level.
 Each subject is assigned to only one dataset split. All EEG recordings belonging to that participant are placed into the same partition, ensuring that recordings from the same individual never appear simultaneously in different datasets.
 
 # Signal Preprocessing
@@ -56,28 +56,28 @@ Raw EEG recordings were imported from European Data Format (EDF) files using the
 
 ## 2. Temporal Filtering
 
-Each recording was band-pass filtered between 0.5 Hz and 45 Hz using MNE's finite impulse response (FIR) filtering implementation. This step removed slow baseline drift while attenuating high-frequency noise outside the frequency range relevant for conventional scalp EEG analysis.
+Each recording was band-pass filtered between **0.5 Hz and 45 Hz** using MNE's finite impulse response (FIR) filtering implementation. This step removed slow baseline drift while attenuating high-frequency noise outside the frequency range relevant for conventional scalp EEG analysis.
 
 ## 3. Resampling
 
-To standardize recordings acquired at different sampling frequencies, all EEG signals were resampled to 200 Hz. This ensured a uniform temporal resolution for all subsequent preprocessing and feature extraction procedures.
+To standardize recordings acquired at different sampling frequencies, all EEG signals were resampled to **200 Hz**. This ensured a uniform temporal resolution for all subsequent preprocessing and feature extraction procedures.
 
 ## 4. Electrode Standardization
 
-A standard International 10–20 electrode montage was assigned to every recording after channel selection. This provided standardized three-dimensional electrode coordinates for each channel and ensured consistent electrode identification across recordings from different sources.
+A standard International **10–20 electrode** montage was assigned to every recording after channel selection. This provided standardized three-dimensional electrode coordinates for each channel and ensured consistent electrode identification across recordings from different sources.
 
 ## 5. Epoch Segmentation
 
-Continuous EEG recordings were segmented into consecutive, non-overlapping 30-second epochs. All subsequent artefact rejection procedures and feature extraction were performed independently on each epoch.
+Continuous EEG recordings were segmented into **consecutive, non-overlapping 30-second epochs**. All subsequent artefact rejection procedures and feature extraction were performed independently on each epoch.
 
 ## 6. Initial Artefact Rejection
 
-A preliminary quality control step was performed by rejecting epochs containing excessive signal amplitudes. Any epoch in which the absolute voltage exceeded ±500 μV in any channel was discarded. Recordings with no remaining epochs following this procedure were excluded from further analysis.
+A preliminary quality control step was performed by rejecting epochs containing excessive signal amplitudes. Any epoch in which the absolute voltage exceeded **±500 μV** in any channel was discarded. Recordings with no remaining epochs following this procedure were excluded from further analysis.
 
 ## 7. Adaptive Artefact Rejection
 
 Following amplitude-based rejection, a second stage of automated artefact rejection was applied to identify residual noisy epochs.
-Recordings containing fewer than four remaining epochs were excluded because insufficient data were available for reliable threshold estimation. For recordings containing between four and ten epochs, global rejection thresholds were estimated using MNE's ```get_rejection_threshold()``` function. Recordings containing more than ten epochs were processed using the AutoReject algorithm, which estimates channel-specific rejection thresholds through cross-validation and performs channel interpolation when appropriate. Recordings with no clean epochs remaining after this stage were excluded from downstream analysis.
+Recordings containing fewer than four remaining epochs were excluded because insufficient data were available for reliable threshold estimation. For recordings containing between four and ten epochs, global rejection thresholds were estimated using MNE's ```get_rejection_threshold()``` function. Recordings containing more than ten epochs were processed using the **AutoReject** algorithm, which estimates channel-specific rejection thresholds through cross-validation and performs channel interpolation when appropriate. Recordings with no clean epochs remaining after this stage were excluded from downstream analysis.
 
 Rejection thresholds, preprocessing statistics, and details of excluded recordings were recorded in dedicated quality-control logs to facilitate reproducibility and subsequent inspection.
 
@@ -115,7 +115,7 @@ Feature extraction is performed independently for each epoch before averaging ac
 - electrode coordinates
 - number of epochs contributing to each feature estimate
 
-For every feature in both the feature sets, the mean and standard deviation across epochs are computed for each EEG channel. 
+For every feature in both the feature sets, the **mean** and **standard deviation** across epochs are computed for each EEG channel. 
 
 # Machine Learning Pipeline
 
@@ -127,11 +127,11 @@ Feature matrices are used to train multiple supervised regression models for bra
 - Relevance Vector Regression (RVR)
 - Gaussian Process Regression (GPR)
 
-Where applicable, model hyperparameters are optimised using Optuna with five-fold cross-validation on the training set. 
+Where applicable, model hyperparameters are optimised using **Optuna** with five-fold cross-validation on the training set. 
 After optimization, each model is trained using the complete training dataset before generating predictions for the validation and independent test sets.
 Predicted brain age (BA) and Brain Age Index (BAI = BA − chronological age) are computed for every subject.
 
-To reduce age-related prediction bias, a post hoc correction is applied using mean prediction error estimated within consecutive 10-year age bins derived from the training data. Corrected brain age estimates are subsequently evaluated using:
+To reduce age-related prediction bias, a post hoc correction is applied using mean prediction error estimated within consecutive **10-year age bins** derived from the training data. Corrected brain age estimates are subsequently evaluated using:
 - Mean Absolute Error (MAE)
 - Root Mean Squared Error (RMSE)
 - Coefficient of Determination (R²)
